@@ -1,0 +1,12 @@
+{
+  "name": "kaizoku-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm --prefix kaizoku run dev",
+    "build": "npm --prefix kaizoku run build",
+    "preview": "npm --prefix kaizoku run preview",
+    "lint": "npm --prefix kaizoku run lint"
+  }
+}

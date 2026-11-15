@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { FooterSection } from '../components/FooterSection';
 import { FadeIn } from '../components/ui/FadeIn';
@@ -27,6 +27,7 @@ const getProductImages = (id: string) => {
 
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [activeImg, setActiveImg] = useState<string>('');
 
   const images = id ? getProductImages(id) : null;
@@ -100,7 +101,7 @@ export const ProductDetailPage: React.FC = () => {
                 <button className="text-xl hover:text-[#DFA09D]">+</button>
               </div>
               <button 
-                onClick={() => window.location.href = '/checkout'}
+                onClick={() => navigate('/checkout')}
                 className="flex-1 bg-black text-white font-bold py-4 rounded-full hover:bg-[#DFA09D] transition-colors uppercase tracking-widest text-xs"
               >
                 Add to Basket

@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { FooterSection } from '../components/FooterSection';
 import { FadeIn } from '../components/ui/FadeIn';
 import { ProductImage } from '../components/ui/ProductImage';
 
 export const CheckoutPage: React.FC = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -35,7 +36,7 @@ export const CheckoutPage: React.FC = () => {
             <section>
               <div className="flex justify-between items-baseline mb-8">
                 <h2 className="text-2xl font-normal tracking-tight">Information</h2>
-                <span className="text-[10px] text-[#1A1A1A]/50">Already have an account? <button onClick={() => window.location.href = '/'} className="text-[#1A1A1A] underline underline-offset-2 hover:text-black">Log in</button></span>
+                <span className="text-[10px] text-[#1A1A1A]/50">Already have an account? <button onClick={() => navigate('/')} className="text-[#1A1A1A] underline underline-offset-2 hover:text-black">Log in</button></span>
               </div>
               
               <div className="space-y-10">
@@ -143,7 +144,7 @@ export const CheckoutPage: React.FC = () => {
               </label>
 
               <button 
-                onClick={() => { alert('Order Placed Successfully! Thank you for shopping with Kaizoku.'); window.location.href = '/'; }}
+                onClick={() => { alert('Order Placed Successfully! Thank you for shopping with Kaizoku.'); navigate('/'); }}
                 className="w-full bg-[#1F1F1F] text-white font-bold py-5 text-[10px] uppercase tracking-[0.2em] hover:bg-black transition-all"
               >
                 Pay and Place Order
