@@ -60,7 +60,7 @@ export const Preloader: React.FC = () => {
               <img src={logo} alt="Logo" className="w-full h-full object-contain" />
             </motion.div>
 
-            <div className="flex flex-col items-center gap-6 w-64 md:w-80">
+            <div className="flex flex-col items-center gap-6 w-[75vw] max-w-[280px] md:w-80">
               <div className="w-full h-[2px] bg-white/20 rounded-full overflow-hidden">
                 <motion.div
                   className="h-full bg-white"

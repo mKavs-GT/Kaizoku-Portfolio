@@ -22,30 +22,55 @@ const row2 = [...rowImages2, ...rowImages2, ...rowImages2, ...rowImages2, ...row
 export const MarqueeSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const [offset, setOffset] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const sectionTop = sectionRef.current.offsetTop;
-      const calc = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
-      setOffset(calc);
+      if (rafId.current) return;
+      rafId.current = requestAnimationFrame(() => {
+        if (sectionRef.current) {
+          const sectionTop = sectionRef.current.offsetTop;
+          const calc = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
+          setOffset(calc);
+        }
+        rafId.current = null;
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial calc
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkMobile);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
   }, []);
+
+  const row1Transform = isMobile
+    ? `translateX(${offset * 0.6 - 700}px)`
+    : `translateX(${offset - 2500}px)`;
+
+  const row2Transform = isMobile
+    ? `translateX(${-(offset * 0.6 - 50)}px)`
+    : `translateX(${-(offset - 200)}px)`;
 
   return (
     <section 
       ref={sectionRef} 
-      className="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden flex flex-col gap-3"
+      className="bg-[#0C0C0C] pt-16 sm:pt-28 md:pt-40 pb-8 sm:pb-10 overflow-hidden flex flex-col gap-2.5 sm:gap-3"
     >
       <div 
-        className="flex gap-3"
+        className="flex gap-2.5 sm:gap-3"
         style={{ 
-          transform: `translateX(${offset - 2500}px)`,
+          transform: row1Transform,
           willChange: 'transform'
         }}
       >
@@ -55,15 +80,15 @@ export const MarqueeSection: React.FC = () => {
             src={src} 
             alt="Marquee" 
             loading="lazy"
-            className="w-[320px] h-[210px] rounded-2xl object-cover shrink-0" 
+            className="w-[190px] h-[130px] sm:w-[250px] sm:h-[165px] md:w-[320px] md:h-[210px] rounded-xl sm:rounded-2xl object-cover shrink-0" 
           />
         ))}
       </div>
       
       <div 
-        className="flex gap-3"
+        className="flex gap-2.5 sm:gap-3"
         style={{ 
-          transform: `translateX(${-(offset - 200)}px)`,
+          transform: row2Transform,
           willChange: 'transform'
         }}
       >
@@ -73,7 +98,7 @@ export const MarqueeSection: React.FC = () => {
             src={src} 
             alt="Marquee" 
             loading="lazy"
-            className="w-[320px] h-[210px] rounded-2xl object-cover shrink-0" 
+            className="w-[190px] h-[130px] sm:w-[250px] sm:h-[165px] md:w-[320px] md:h-[210px] rounded-xl sm:rounded-2xl object-cover shrink-0" 
           />
         ))}
       </div>

@@ -30,8 +30,8 @@ const ProductItem: React.FC<{ id: string, image: string, name: string, price: st
   const navigate = useNavigate();
 
   return (
-    <Link to={`/product/${id}`} className="flex flex-col gap-3 group cursor-pointer w-full">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] sm:rounded-[30px] bg-[#1A1A1A] w-full">
+    <Link to={`/product/${id}`} className="flex flex-col gap-2.5 sm:gap-3 group cursor-pointer w-full">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-[16px] sm:rounded-[24px] md:rounded-[30px] bg-[#1A1A1A] w-full">
         <ProductImage
           id={id}
           alt={name}
@@ -40,11 +40,11 @@ const ProductItem: React.FC<{ id: string, image: string, name: string, price: st
         />
       </div>
       <div className="flex flex-col items-start w-full gap-1">
-        <h4 className="text-[#D7E2EA] font-bold text-[10px] sm:text-xs md:text-sm uppercase tracking-tight truncate w-full">{name}</h4>
-        <p className="text-[#D7E2EA] font-medium text-[11px] sm:text-[13px] md:text-[15px] opacity-80">{price}</p>
+        <h4 className="text-[#D7E2EA] font-bold text-xs sm:text-xs md:text-sm uppercase tracking-tight truncate w-full group-hover:text-[#DFA09D] transition-colors">{name}</h4>
+        <p className="text-[#D7E2EA] font-medium text-xs sm:text-[13px] md:text-[15px] opacity-80">{price}</p>
         <button 
           onClick={(e) => { e.preventDefault(); navigate('/checkout'); }}
-          className="w-full py-2.5 mt-1 bg-[#DFA09D] text-black font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-white transition-colors duration-300 rounded-lg"
+          className="w-full py-2.5 mt-1 bg-[#DFA09D] text-black font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-white transition-colors duration-300 rounded-lg min-h-[40px] flex items-center justify-center active:scale-[0.98]"
         >
           Add to Cart
         </button>
@@ -54,17 +54,17 @@ const ProductItem: React.FC<{ id: string, image: string, name: string, price: st
 };
 
 const CategoryPill: React.FC<{ name: string, img: string, color: string, delay: number, href: string }> = ({ name, img, color, delay, href }) => (
-  <FadeIn delay={delay} y={30} className="relative group cursor-pointer h-[130px] w-full max-w-[360px]">
+  <FadeIn delay={delay} y={30} className="relative group cursor-pointer h-[120px] sm:h-[130px] w-full max-w-[340px] sm:max-w-[360px]">
     <a href={href} className="block w-full h-full relative">
-      <div className={`absolute bottom-0 left-0 w-full h-[84px] rounded-[42px] ${color} transition-all duration-500 group-hover:shadow-2xl flex items-center px-10 overflow-hidden`}>
+      <div className={`absolute bottom-0 left-0 w-full h-[76px] sm:h-[84px] rounded-[38px] sm:rounded-[42px] ${color} transition-all duration-500 group-hover:shadow-2xl flex items-center px-6 sm:px-10 overflow-hidden`}>
         <div className="flex flex-col gap-1 z-10">
-          <h4 className="text-black font-black text-lg sm:text-xl uppercase tracking-tighter italic leading-none">{name}</h4>
-          <div className="px-4 py-1.5 mt-1 border border-black/30 text-black text-[8px] font-bold uppercase tracking-[0.2em] rounded-full w-fit group-hover:bg-black group-hover:text-white transition-all duration-300">
+          <h4 className="text-black font-black text-base sm:text-xl uppercase tracking-tighter italic leading-none">{name}</h4>
+          <div className="px-3.5 py-1 sm:px-4 sm:py-1.5 mt-1 border border-black/30 text-black text-[8px] font-bold uppercase tracking-[0.2em] rounded-full w-fit group-hover:bg-black group-hover:text-white transition-all duration-300">
             Click Now
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 right-[-5px] w-[110px] h-[150px] z-20 pointer-events-none">
+      <div className="absolute bottom-0 right-[-2px] sm:right-[-5px] w-[95px] sm:w-[110px] h-[130px] sm:h-[150px] z-20 pointer-events-none">
         <img
           src={img}
           alt={name}
@@ -122,24 +122,24 @@ export const ProductsPage: React.FC = () => {
         <Navbar />
       </div>
 
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[100dvh] h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img src={model2} className="w-full h-full object-cover opacity-60" alt="Products Hero" />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#0C0C0C]"></div>
         </div>
 
-        <div className="relative z-10 text-center px-6 mt-20">
+        <div className="relative z-10 text-center px-5 sm:px-6 mt-16 sm:mt-20 max-w-5xl">
           <FadeIn delay={0.1} y={30}>
-            <span className="text-[#DFA09D] font-mono text-sm uppercase tracking-[0.5em] mb-4 block">New Collection 2026</span>
+            <span className="text-[#DFA09D] font-mono text-xs sm:text-sm uppercase tracking-[0.4em] sm:tracking-[0.5em] mb-3 sm:mb-4 block">New Collection 2026</span>
             <h1
-              className="text-white font-black text-3xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl uppercase tracking-tighter leading-none mb-10 italic drop-shadow-2xl whitespace-nowrap"
-              style={{ wordSpacing: '1rem' }}
+              className="text-white font-black text-3xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl uppercase tracking-tighter leading-tight sm:leading-none mb-8 sm:mb-10 italic drop-shadow-2xl"
+              style={{ wordSpacing: '0.5rem' }}
             >
               Wear the Rebellion
             </h1>
             <button 
               onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-              className="px-12 py-5 bg-[#DFA09D] text-black font-black text-xs sm:text-sm uppercase tracking-[0.3em] hover:bg-white transition-all duration-300 rounded-full shadow-2xl"
+              className="px-8 sm:px-12 py-4 sm:py-5 bg-[#DFA09D] text-black font-black text-xs sm:text-sm uppercase tracking-[0.25em] sm:tracking-[0.3em] hover:bg-white transition-all duration-300 rounded-full shadow-2xl min-h-[44px]"
             >
               Shop Collection
             </button>
@@ -147,36 +147,36 @@ export const ProductsPage: React.FC = () => {
         </div>
       </section>
 
-      <div className="bg-white py-5 overflow-hidden border-y border-white/10 relative z-10">
-        <div className="flex animate-marquee whitespace-nowrap gap-12 text-black font-black text-xs sm:text-sm uppercase tracking-[0.4em]">
+      <div className="bg-white py-4 sm:py-5 overflow-hidden border-y border-white/10 relative z-10">
+        <div className="flex animate-marquee whitespace-nowrap gap-8 sm:gap-12 text-black font-black text-[11px] sm:text-sm uppercase tracking-[0.3em] sm:tracking-[0.4em]">
           {[...Array(10)].map((_, i) => (
-            <span key={i} className="flex items-center gap-12">
+            <span key={i} className="flex items-center gap-8 sm:gap-12">
               Wear the Basics <span className="text-[#DFA09D]">✦</span> Inspire Your Every Day <span className="text-[#DFA09D]">✦</span>
             </span>
           ))}
         </div>
       </div>
 
-      <section className="py-24 px-6 sm:px-10 md:px-16 max-w-[1400px] mx-auto overflow-visible">
-        <FadeIn delay={0.1} y={20} className="mb-12 text-center">
-          <h2 className="text-white font-black text-4xl uppercase tracking-widest italic">Shop by Categories</h2>
-          <div className="w-20 h-1 bg-[#DFA09D] mx-auto mt-4"></div>
+      <section className="py-16 sm:py-24 px-4 sm:px-10 md:px-16 max-w-[1400px] mx-auto overflow-visible">
+        <FadeIn delay={0.1} y={20} className="mb-10 sm:mb-12 text-center">
+          <h2 className="text-white font-black text-2xl sm:text-4xl uppercase tracking-widest italic">Shop by Categories</h2>
+          <div className="w-16 sm:w-20 h-1 bg-[#DFA09D] mx-auto mt-3 sm:mt-4"></div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 justify-items-center mb-40">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-12 justify-items-center mb-24 sm:mb-40">
           <CategoryPill name="Jackets" img={jacketsImg} color="bg-[#F0A0A0]" delay={0.1} href="#jackets" />
           <CategoryPill name="Tops" img={shirtsImg} color="bg-[#EBC070]" delay={0.2} href="#tops" />
           <CategoryPill name="Dresses" img={dressesImg} color="bg-[#E0D5D5]" delay={0.3} href="#dresses" />
         </div>
 
-        <div className="flex flex-col gap-32">
+        <div className="flex flex-col gap-20 sm:gap-32">
           {categoryData.map((category) => (
-            <section key={category.id} id={category.id} className="scroll-mt-32">
-              <FadeIn delay={0.1} y={20} className="mb-8 flex items-center gap-4">
-                <h3 className="text-white/20 font-medium text-xs sm:text-sm uppercase tracking-[0.6em] whitespace-nowrap">{category.title}</h3>
+            <section key={category.id} id={category.id} className="scroll-mt-24 sm:scroll-mt-32">
+              <FadeIn delay={0.1} y={20} className="mb-6 sm:mb-8 flex items-center gap-4">
+                <h3 className="text-white/40 sm:text-white/20 font-medium text-xs sm:text-sm uppercase tracking-[0.4em] sm:tracking-[0.6em] whitespace-nowrap">{category.title}</h3>
                 <div className="h-[1px] w-full bg-white/5"></div>
               </FadeIn>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-10">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6 md:gap-10">
                 {category.items.map((item, idx) => (
                   <FadeIn key={idx} delay={0.05 * idx} y={20}>
                     <ProductItem {...item} />

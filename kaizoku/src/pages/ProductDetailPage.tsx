@@ -43,9 +43,9 @@ export const ProductDetailPage: React.FC = () => {
     <div className="bg-white min-h-screen text-black selection:bg-[#DFA09D] selection:text-white">
       <Navbar darkLinks={true} />
 
-      <main className="max-w-7xl mx-auto pl-0 pr-6 pt-16 pb-32">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 pt-10 sm:pt-16 pb-20 sm:pb-32">
         {/* Breadcrumbs */}
-        <div className="flex gap-2 text-[10px] uppercase tracking-widest text-black/40 mb-12 pl-4">
+        <div className="flex gap-2 text-[10px] uppercase tracking-widest text-black/40 mb-8 sm:mb-12 pl-0 sm:pl-4">
           <Link to="/" className="hover:text-black">Home</Link>
           <span>/</span>
           <Link to="/products" className="hover:text-black">Catalog</Link>
@@ -53,21 +53,21 @@ export const ProductDetailPage: React.FC = () => {
           <span className="text-black font-bold">{id.replace(/([a-z])([0-9])/, '$1 $2')}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16 lg:gap-24 mb-20 sm:mb-32">
           {/* Gallery */}
-          <div className="flex flex-row gap-4">
-            <div className="flex flex-col gap-3 w-16 sm:w-20 md:w-24 flex-shrink-0">
+          <div className="flex flex-col-reverse sm:flex-row gap-3 sm:gap-4">
+            <div className="flex flex-row sm:flex-col gap-2.5 sm:gap-3 overflow-x-auto sm:overflow-visible w-full sm:w-20 md:w-24 flex-shrink-0 pb-1 sm:pb-0">
               {[images.main, images.model, images.detail].map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveImg(img)}
-                  className={`aspect-square rounded-xl overflow-hidden bg-gray-100 border-2 transition-all ${activeImg === img ? 'border-black' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                  className={`w-14 h-14 sm:w-auto sm:aspect-square rounded-xl overflow-hidden bg-gray-100 border-2 transition-all flex-shrink-0 ${activeImg === img ? 'border-black' : 'border-transparent opacity-60 hover:opacity-100'}`}
                 >
                   <img src={img} className="w-full h-full object-cover" alt="Thumbnail" />
                 </button>
               ))}
             </div>
-            <div className="flex-1 aspect-[4/5] bg-gray-100 overflow-hidden rounded-2xl">
+            <div className="flex-1 aspect-[4/5] bg-gray-100 overflow-hidden rounded-2xl w-full">
               <ProductImage
                 id={id}
                 alt="Product"
@@ -79,12 +79,12 @@ export const ProductDetailPage: React.FC = () => {
 
           {/* Product Info */}
           <div className="flex flex-col lg:pt-34">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter italic leading-none mb-4">
+            <h1 className="text-3xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter italic leading-none mb-3 sm:mb-4">
               {id.replace(/([a-z])([0-9])/, '$1 $2')}
             </h1>
-            <p className="text-2xl font-bold mb-8">₹ 1,299.00</p>
+            <p className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-[#1A1A1A]">₹ 1,299.00</p>
 
-            <div className="prose prose-sm text-black/60 mb-12">
+            <div className="prose prose-sm text-black/60 mb-8 sm:mb-12">
               <p>
                 An over-engineered piece from the Kaizoku core collection. Designed with structural silhouettes and distressed hardware, this garment represents the pinnacle of rebellion-inspired streetwear.
               </p>
@@ -94,30 +94,30 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-6 mb-12">
-              <div className="flex items-center border border-black/20 rounded-full px-6 py-3 gap-8">
-                <button className="text-xl hover:text-[#DFA09D]">-</button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-6 mb-8 sm:mb-12">
+              <div className="flex items-center justify-between sm:justify-start border border-black/20 rounded-full px-6 py-3.5 gap-8 min-h-[48px]">
+                <button className="text-xl hover:text-[#DFA09D] p-1">-</button>
                 <span className="font-bold">1</span>
-                <button className="text-xl hover:text-[#DFA09D]">+</button>
+                <button className="text-xl hover:text-[#DFA09D] p-1">+</button>
               </div>
               <button 
                 onClick={() => navigate('/checkout')}
-                className="flex-1 bg-black text-white font-bold py-4 rounded-full hover:bg-[#DFA09D] transition-colors uppercase tracking-widest text-xs"
+                className="flex-1 bg-black text-white font-bold py-4 rounded-full hover:bg-[#DFA09D] hover:text-black transition-colors uppercase tracking-widest text-xs min-h-[48px] flex items-center justify-center active:scale-[0.99]"
               >
                 Add to Basket
               </button>
             </div>
 
             {/* Technical Specs */}
-            <div className="grid grid-cols-1 gap-4 border-t border-black/10 pt-12">
+            <div className="grid grid-cols-1 gap-3.5 sm:gap-4 border-t border-black/10 pt-8 sm:pt-12">
               {[
                 { label: 'Type', value: 'Limited Edition' },
                 { label: 'Material', value: 'Distressed Cotton' },
                 { label: 'Fit', value: 'Oversized Structural' },
               ].map((spec, i) => (
-                <div key={i} className="flex justify-between text-[11px] uppercase tracking-widest border-b border-black/5 pb-4">
+                <div key={i} className="flex justify-between text-[11px] uppercase tracking-widest border-b border-black/5 pb-3 sm:pb-4">
                   <span className="font-bold">{spec.label}</span>
-                  <span className="text-black/40">{spec.value}</span>
+                  <span className="text-black/50">{spec.value}</span>
                 </div>
               ))}
             </div>
@@ -125,86 +125,86 @@ export const ProductDetailPage: React.FC = () => {
         </div>
 
         {/* Description Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-40">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 mb-20 sm:mb-40">
           <div>
-            <h2 className="text-xl font-black uppercase tracking-widest mb-6">Description</h2>
-            <p className="text-sm leading-relaxed text-black/60">
+            <h2 className="text-lg sm:text-xl font-black uppercase tracking-widest mb-4 sm:mb-6">Description</h2>
+            <p className="text-xs sm:text-sm leading-relaxed text-black/70">
               Structural silhouettes with distressed hardware. Engineered cotton with haunting graphic prints.
-              Ethereal, tattered elegance that giving girl boss energy. This product features hand-finished
+              Ethereal, tattered elegance giving girl boss energy. This product features hand-finished
               details and reinforced stitching for longevity.
             </p>
           </div>
-          <div className="bg-gray-100 rounded-[40px] aspect-video overflow-hidden">
+          <div className="bg-gray-100 rounded-[24px] sm:rounded-[40px] aspect-video overflow-hidden">
             <img src={images.detail} className="w-full h-full object-cover opacity-80" alt="Detail" />
           </div>
         </div>
 
         {/* Rating & Reviews Section */}
-        <section className="mb-40 flex flex-col items-center border-y border-[#DFA09D] py-16">
+        <section className="mb-20 sm:mb-40 flex flex-col items-center border-y border-[#DFA09D] py-10 sm:py-16">
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-[2.75rem] font-medium tracking-tight mb-6 leading-tight text-[#1A1A1A]">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-3xl sm:text-[2.75rem] font-medium tracking-tight mb-4 sm:mb-6 leading-tight text-[#1A1A1A]">
               Read reviews,<br/>ride with confidence.
             </h2>
-            <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-sm font-medium">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium">
               <span className="text-[#1A1A1A]">4.2/5</span>
               <div className="flex items-center text-[#00B67A] ml-1">
-                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </div>
-              <span className="font-bold text-lg tracking-tight text-[#1A1A1A]">Trustpilot</span>
-              <span className="text-[#1A1A1A]/50 ml-1 sm:ml-2">Based on 5210 reviews</span>
+              <span className="font-bold text-base sm:text-lg tracking-tight text-[#1A1A1A]">Trustpilot</span>
+              <span className="text-[#1A1A1A]/50 ml-1 sm:ml-2">Based on 5,210 reviews</span>
             </div>
           </div>
 
-          <div className="w-full flex flex-col lg:flex-row gap-12 lg:gap-8 items-start">
+          <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-8 items-start">
             {/* Left Col */}
-            <div className="lg:w-[320px] flex-shrink-0 flex flex-col pl-4">
-              <span className="text-[140px] leading-none text-black/20 font-serif mb-0 -ml-2 -mt-8">"</span>
-              <h3 className="text-[1.75rem] font-medium tracking-tight pr-10 mb-12 -mt-8 leading-snug text-[#1A1A1A]">What our customers are saying</h3>
+            <div className="lg:w-[320px] flex-shrink-0 flex flex-col pl-0 sm:pl-4">
+              <span className="text-6xl sm:text-[140px] leading-none text-black/20 font-serif mb-2 sm:mb-0 sm:-ml-2 sm:-mt-8">"</span>
+              <h3 className="text-xl sm:text-[1.75rem] font-medium tracking-tight pr-0 sm:pr-10 mb-6 sm:mb-12 leading-snug text-[#1A1A1A]">What our customers are saying</h3>
               <div className="flex items-center gap-4 text-black/30">
-                <button className="hover:text-black transition-colors">
+                <button className="hover:text-black transition-colors p-2" aria-label="Previous review">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
                 </button>
                 <div className="h-[2px] w-24 bg-black/10 relative rounded-full">
                   <div className="absolute left-0 top-0 h-full w-1/3 bg-[#1A1A1A] rounded-full"></div>
                 </div>
-                <button className="hover:text-black transition-colors">
+                <button className="hover:text-black transition-colors p-2" aria-label="Next review">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </button>
               </div>
             </div>
 
             {/* Right Col: Cards Slider */}
-            <div className="flex-1 w-full flex gap-6 overflow-x-auto pb-12 pt-4 px-4 -mx-4 hide-scrollbar snap-x snap-mandatory">
+            <div className="flex-1 w-full flex gap-4 sm:gap-6 overflow-x-auto pb-6 sm:pb-12 pt-2 sm:pt-4 px-2 sm:px-4 -mx-2 sm:-mx-4 hide-scrollbar snap-x snap-mandatory">
               {[
                 { name: "Karan", time: "1 week ago", text: "My buying experience is so nice, and received me very politely. Riding experience is also very good. Very good performance. I never experienced such a kind of performance. Very good service." },
-                { name: "Catherine", time: "10 days ago", text: "I love my e-bike and the customer service is excellent. They respond in a timely manner with loads of information about e-bikes, accessories and maintenance information." },
-                { name: "Peter", time: "2 weeks ago", text: "Visited to EO store. Product looks great, particularly welds, looked clean and sturdy. My wife and I took small test drive around the parking lot area. We bought 2 bikes." },
+                { name: "Catherine", time: "10 days ago", text: "I love my jacket and the customer service is excellent. They respond in a timely manner with loads of information about collections, accessories and maintenance information." },
+                { name: "Peter", time: "2 weeks ago", text: "Visited Kaizoku store. Product looks great, particularly seams and hardware, looked clean and sturdy. My wife and I love the anime-inspired couture. We bought 2 jackets." },
               ].map((review, i) => (
-                <div key={i} className="snap-start shrink-0 w-[300px] sm:w-[340px] flex flex-col relative">
+                <div key={i} className="snap-start shrink-0 w-[260px] sm:w-[340px] flex flex-col relative">
                   {/* Bubble */}
-                  <div className="bg-white rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative z-10">
-                    <p className="text-[13px] text-[#1A1A1A]/70 leading-[1.6] mb-8 h-[105px] overflow-hidden">
+                  <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative z-10">
+                    <p className="text-xs sm:text-[13px] text-[#1A1A1A]/70 leading-[1.6] mb-6 sm:mb-8 h-[95px] sm:h-[105px] overflow-hidden">
                       {review.text}
                     </p>
                     <div className="flex gap-1 text-[#00B67A] text-sm">
                       ★★★★★
                     </div>
                     {/* Tail */}
-                    <svg className="absolute -bottom-4 left-8 w-6 h-6 text-white" viewBox="0 0 20 20" fill="currentColor" style={{ filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.04))' }}>
+                    <svg className="absolute -bottom-4 left-6 sm:left-8 w-6 h-6 text-white" viewBox="0 0 20 20" fill="currentColor" style={{ filter: 'drop-shadow(0 8px 8px rgba(0,0,0,0.04))' }}>
                       <path d="M0 0 L20 0 L0 20 Z" />
                     </svg>
                   </div>
                   {/* User info */}
-                  <div className="flex items-center gap-3 mt-8 ml-8">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden shrink-0 shadow-sm">
+                  <div className="flex items-center gap-3 mt-6 sm:mt-8 ml-6 sm:ml-8">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gray-200 overflow-hidden shrink-0 shadow-sm">
                       <img src={`https://i.pravatar.cc/100?u=${review.name}`} alt={review.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-[#1A1A1A]">{review.name}</span>
-                      <span className="text-[10px] text-[#1A1A1A]/50">{review.time}</span>
+                      <span className="text-xs sm:text-sm font-bold text-[#1A1A1A]">{review.name}</span>
+                      <span className="text-[9px] sm:text-[10px] text-[#1A1A1A]/50">{review.time}</span>
                     </div>
                   </div>
                 </div>
@@ -214,34 +214,34 @@ export const ProductDetailPage: React.FC = () => {
         </section>
 
         {/* Related Products */}
-        <section className="mb-40">
-          <h2 className="text-4xl font-black uppercase text-center mb-16 tracking-tighter italic">You May Also Like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
+        <section className="mb-20 sm:mb-40">
+          <h2 className="text-2xl sm:text-4xl font-black uppercase text-center mb-10 sm:mb-16 tracking-tighter italic">You May Also Like</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-10">
             {[
               { id: 'jacket1', name: 'Howls Jacket', price: '₹ 1,299.00', img: new URL('../assets/product/jacket1.png', import.meta.url).href },
               { id: 'top2', name: 'Leonhart Corset', price: '₹ 440.00', img: new URL('../assets/product/top2.png', import.meta.url).href },
               { id: 'dress3', name: 'Frankie Dress', price: '₹ 810.00', img: new URL('../assets/product/dress3.png', import.meta.url).href },
             ].map((product) => (
               <Link to={`/product/${product.id}`} key={product.id} className="group cursor-pointer">
-                <div className="aspect-[4/5] bg-gray-100 rounded-3xl mb-6 overflow-hidden relative">
+                <div className="aspect-[4/5] bg-gray-100 rounded-2xl sm:rounded-3xl mb-3 sm:mb-6 overflow-hidden relative">
                   <ProductImage
                     id={product.id}
                     alt={product.name}
                     baseImage={product.img}
                     className="w-full h-full"
                   />
-                  <button className="absolute top-6 right-6 z-10 w-8 h-8 rounded-full bg-white/80 flex items-center justify-center hover:bg-[#DFA09D] hover:text-white transition-colors shadow-sm">
+                  <button className="absolute top-3 right-3 sm:top-6 sm:right-6 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/80 flex items-center justify-center hover:bg-[#DFA09D] hover:text-white transition-colors shadow-sm text-xs">
                     ♡
                   </button>
-                  <div className="absolute top-6 left-6 z-10 flex gap-2">
-                    <span className="px-3 py-1 bg-white text-[8px] font-bold rounded-full uppercase tracking-widest shadow-sm">Bestseller</span>
+                  <div className="absolute top-3 left-3 sm:top-6 sm:left-6 z-10 flex gap-2">
+                    <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-white text-[8px] font-bold rounded-full uppercase tracking-widest shadow-sm">Bestseller</span>
                   </div>
                 </div>
-                <div className="flex justify-between items-center px-2">
-                  <h4 className="text-xs font-bold uppercase tracking-widest">{product.name}</h4>
-                  <span className="text-xs text-black/60">{product.price}</span>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-1 sm:px-2 gap-1 sm:gap-0">
+                  <h4 className="text-[11px] sm:text-xs font-bold uppercase tracking-widest truncate w-full sm:w-auto">{product.name}</h4>
+                  <span className="text-[11px] sm:text-xs text-black/60 font-semibold">{product.price}</span>
                 </div>
-                <button className="w-full mt-6 py-3 border border-black/10 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
+                <button className="w-full mt-3 sm:mt-6 py-2.5 sm:py-3 border border-black/10 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors min-h-[40px] flex items-center justify-center">
                   Add to Cart
                 </button>
               </Link>
@@ -250,39 +250,39 @@ export const ProductDetailPage: React.FC = () => {
         </section>
 
         {/* Newsletter */}
-        <section className="bg-gradient-to-br from-[#DFA09D] via-[#E2AFA9] to-[#EABFBB] rounded-[40px] md:rounded-[60px] p-8 md:p-16 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 shadow-lg">
-          <div className="flex-1 flex flex-col gap-12 text-white w-full">
+        <section className="bg-gradient-to-br from-[#DFA09D] via-[#E2AFA9] to-[#EABFBB] rounded-[28px] sm:rounded-[40px] md:rounded-[60px] p-6 sm:p-10 md:p-16 flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16 shadow-lg">
+          <div className="flex-1 flex flex-col gap-6 sm:gap-12 text-white w-full">
             {/* Text Content */}
             <div>
-              <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight mb-4 leading-[1.1]">
+              <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight mb-3 sm:mb-4 leading-[1.1]">
                 Subscribe to<br />our newsletter
               </h2>
-              <p className="text-white text-sm leading-relaxed max-w-md opacity-90 font-medium">
+              <p className="text-white text-xs sm:text-sm leading-relaxed max-w-md opacity-90 font-medium">
                 Join our newsletter to get exclusive insights, timely updates, and expert tips that help you stay ahead of the rebellion.
               </p>
             </div>
 
             {/* Form Content */}
             <div className="flex flex-col gap-3">
-              <span className="text-white font-bold text-sm">Stay Informed</span>
+              <span className="text-white font-bold text-xs sm:text-sm">Stay Informed</span>
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-[#FFEFE5] text-black px-6 py-4 rounded-xl sm:rounded-2xl flex-1 outline-none focus:ring-2 focus:ring-white transition-all placeholder:text-black/50 text-sm font-semibold"
+                  className="bg-[#FFEFE5] text-black px-5 py-3.5 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex-1 outline-none focus:ring-2 focus:ring-white transition-all placeholder:text-black/50 text-xs sm:text-sm font-semibold min-h-[44px]"
                 />
-                <button className="bg-[#7A2E24] text-white px-8 py-4 rounded-xl sm:rounded-2xl font-semibold text-sm hover:bg-[#5C2018] transition-colors whitespace-nowrap shadow-md">
+                <button className="bg-[#7A2E24] text-white px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm hover:bg-[#5C2018] transition-colors whitespace-nowrap shadow-md min-h-[44px]">
                   Subscribe
                 </button>
               </div>
-              <p className="text-white/80 text-[11px] mt-1 font-medium">
+              <p className="text-white/80 text-[10px] sm:text-[11px] mt-1 font-medium">
                 By subscribing you agree to our <a href="#" className="underline underline-offset-4 hover:text-white transition-colors">Privacy Policy</a>
               </p>
             </div>
           </div>
 
           {/* Existing Picture */}
-          <div className="flex-1 w-full aspect-square bg-white/20 rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl relative">
+          <div className="flex-1 w-full aspect-square bg-white/20 rounded-[24px] sm:rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl relative max-w-[400px] lg:max-w-none">
             <img src={images.model} className="w-full h-full object-cover" alt="Newsletter Model" />
           </div>
         </section>

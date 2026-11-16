@@ -23,8 +23,11 @@ const ProductItem: React.FC<{ id: string, image: string, name: string, price: st
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col gap-3 group cursor-pointer w-full">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-[20px] sm:rounded-[30px] bg-[#1A1A1A] w-full">
+    <div className="flex flex-col gap-2.5 sm:gap-3 group cursor-pointer w-full">
+      <div 
+        onClick={() => navigate(`/product/${id}`)}
+        className="relative aspect-[4/5] overflow-hidden rounded-[16px] sm:rounded-[24px] md:rounded-[30px] bg-[#1A1A1A] w-full"
+      >
         <ProductImage
           id={id}
           alt={name}
@@ -33,11 +36,16 @@ const ProductItem: React.FC<{ id: string, image: string, name: string, price: st
         />
       </div>
       <div className="flex flex-col items-start w-full gap-1">
-        <h4 className="text-[#D7E2EA] font-bold text-[10px] sm:text-xs md:text-sm uppercase tracking-tight truncate w-full">{name}</h4>
-        <p className="text-[#D7E2EA] font-medium text-[11px] sm:text-[13px] md:text-[15px] opacity-80">{price}</p>
+        <h4 
+          onClick={() => navigate(`/product/${id}`)}
+          className="text-[#D7E2EA] font-bold text-xs sm:text-xs md:text-sm uppercase tracking-tight truncate w-full hover:text-[#DFA09D] transition-colors"
+        >
+          {name}
+        </h4>
+        <p className="text-[#D7E2EA] font-medium text-xs sm:text-[13px] md:text-[15px] opacity-80">{price}</p>
         <button 
           onClick={(e) => { e.preventDefault(); navigate('/checkout'); }}
-          className="w-full py-2.5 mt-1 bg-[#DFA09D] text-black font-black text-[9px] sm:text-[10px] uppercase tracking-widest hover:bg-white transition-colors duration-300 rounded-lg"
+          className="w-full py-2.5 sm:py-2.5 mt-1 bg-[#DFA09D] text-black font-black text-[10px] uppercase tracking-widest hover:bg-white transition-colors duration-300 rounded-lg min-h-[40px] flex items-center justify-center active:scale-[0.98]"
         >
           Add to Cart
         </button>
@@ -94,37 +102,37 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, i, progress, range, 
   const scale = useTransform(progress, range, [1, targetScale]);
 
   return (
-    <div className="h-fit min-h-[70vh] flex items-center justify-center sticky top-[-20px] md:top-[-40px] w-full py-4 md:py-6">
+    <div className="h-fit md:min-h-[70vh] flex items-center justify-center relative md:sticky top-0 md:top-[-40px] w-full py-3 sm:py-4 md:py-6">
       <motion.div
         style={{
           scale,
           top: `calc(${i * 20}px)`
         }}
-        className="relative w-full flex flex-col rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#DFA09D]/50 bg-[#0C0C0C] p-6 sm:p-8 md:p-12 shadow-2xl"
+        className="relative w-full flex flex-col rounded-[28px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#DFA09D]/50 bg-[#0C0C0C] p-4 sm:p-8 md:p-12 shadow-2xl"
       >
-        <div className="flex justify-between items-start mb-12 gap-4">
-          <div className="flex gap-6 sm:gap-10 items-center">
+        <div className="flex justify-between items-start mb-6 sm:mb-12 gap-3 sm:gap-4">
+          <div className="flex gap-4 sm:gap-6 md:gap-10 items-center">
             <div
-              className="font-black leading-none text-transparent"
+              className="font-black leading-none text-transparent shrink-0"
               style={{
-                fontSize: 'clamp(3rem, 10vw, 150px)',
+                fontSize: 'clamp(2.5rem, 8vw, 150px)',
                 WebkitTextStroke: '2px rgba(223, 160, 157, 0.5)',
               }}
             >
               {project.num}
             </div>
 
-            <div className="h-16 sm:h-24 md:h-32 w-[1px] bg-white/20"></div>
+            <div className="h-12 sm:h-20 md:h-32 w-[1px] bg-white/20 shrink-0"></div>
 
             <div className="flex flex-col">
-              <div className="flex items-center gap-3 mb-2">
-                <span className="w-8 h-[1px] bg-[#DFA09D]"></span>
-                <span className="uppercase text-[10px] sm:text-xs font-bold tracking-[0.4em] text-[#DFA09D]">Collection  {project.num}</span>
+              <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                <span className="w-5 sm:w-8 h-[1px] bg-[#DFA09D]"></span>
+                <span className="uppercase text-[9px] sm:text-xs font-bold tracking-[0.3em] sm:tracking-[0.4em] text-[#DFA09D]">Collection  {project.num}</span>
               </div>
-              <h3 className="font-black text-2xl sm:text-4xl md:text-5xl lg:text-6xl mb-3 uppercase tracking-tighter italic leading-none">
+              <h3 className="font-black text-xl sm:text-4xl md:text-5xl lg:text-6xl mb-1 sm:mb-3 uppercase tracking-tighter italic leading-none">
                 {project.name}
               </h3>
-              <p className="text-white/40 font-mono text-[10px] sm:text-xs md:text-sm uppercase tracking-widest max-w-md">
+              <p className="text-white/40 font-mono text-[9px] sm:text-xs md:text-sm uppercase tracking-wider sm:tracking-widest max-w-md line-clamp-2 sm:line-clamp-none">
                 {project.category}
               </p>
             </div>
@@ -134,13 +142,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, i, progress, range, 
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:gap-8 w-full">
           {project.items.map((item, idx) => (
             <ProductItem key={idx} {...item} />
           ))}
         </div>
 
-        <div className="lg:hidden mt-10 w-full flex justify-center">
+        <div className="lg:hidden mt-6 sm:mt-10 w-full flex justify-center">
           <ViewAllButton />
         </div>
       </motion.div>
@@ -161,13 +169,13 @@ export const ProjectsSection: React.FC = () => {
     <section
       ref={containerRef}
       id="products"
-      className="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] z-10 relative px-5 sm:px-8 md:px-10 py-20 pb-[20vh]"
+      className="bg-[#0C0C0C] rounded-t-[32px] sm:rounded-t-[50px] md:rounded-t-[60px] z-10 relative px-4 sm:px-8 md:px-10 py-14 sm:py-20 pb-[10vh] md:pb-[20vh]"
     >
       <FadeIn delay={0} y={40}>
         <h2
-          className="hero-heading font-black uppercase text-center mb-16 sm:mb-20 md:mb-28 leading-none tracking-tight"
+          className="hero-heading font-black uppercase text-center mb-10 sm:mb-20 md:mb-28 leading-none tracking-tight"
           style={{
-            fontSize: 'clamp(3rem, 12vw, 160px)',
+            fontSize: 'clamp(2.4rem, 10vw, 160px)',
             background: 'linear-gradient(135deg, #F3F4F6 0%, #FFFFFF 50%, #DFA09D 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -178,7 +186,7 @@ export const ProjectsSection: React.FC = () => {
         </h2>
       </FadeIn>
 
-      <div className="flex flex-col gap-[10vh]">
+      <div className="flex flex-col gap-8 sm:gap-[6vh] md:gap-[10vh]">
         {projects.map((project, i) => {
           return (
             <ProjectCard

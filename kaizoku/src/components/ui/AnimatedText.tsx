@@ -18,7 +18,7 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = ''
 
   return (
     <div ref={container} className={`${className}`}>
-      <p className="relative text-justify">
+      <p className="relative text-left sm:text-justify">
         {chars.map((char, i) => {
           const start = i / chars.length;
           const end = start + (1 / chars.length);
