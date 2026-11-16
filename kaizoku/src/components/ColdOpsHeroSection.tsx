@@ -99,7 +99,7 @@ export const ColdOpsHeroSection: React.FC = () => {
     <section
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full overflow-hidden transition-colors duration-1000 min-h-[100dvh] h-screen"
+      className="relative w-full overflow-hidden transition-colors duration-1000 min-h-[100dvh] h-[100dvh] sm:h-screen"
       style={{
         backgroundColor: slide.bgColor,
         backgroundImage: `linear-gradient(to left, rgba(255,255,255,0.15) 0%, transparent 100%), linear-gradient(160deg, ${slide.bgColor} 0%, ${slide.bgColor}cc 100%)`,
@@ -134,14 +134,14 @@ export const ColdOpsHeroSection: React.FC = () => {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.8 }}
-              className="translate-y-4 sm:translate-y-10"
+              className="translate-y-2 sm:translate-y-10"
             >
               <div className="pointer-events-auto">
                 <Magnet padding={200} strength={8} activeTransition="transform 0.3s ease-out" inactiveTransition="transform 0.6s ease-in-out">
                   <img
                     src={slide.heroImg}
                     alt="Hero Product"
-                    className={`max-w-[280px] sm:max-w-none ${slide.heroSize} h-auto object-contain`}
+                    className={`max-w-[220px] xs:max-w-[260px] sm:max-w-none ${slide.heroSize} max-h-[38vh] sm:max-h-none h-auto object-contain`}
                     style={{
                       filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.4))',
                     }}
@@ -152,19 +152,19 @@ export const ColdOpsHeroSection: React.FC = () => {
           </div>
 
           {/* Text/UI Overlays */}
-          <div className="relative z-[2] w-full h-full flex flex-col justify-between px-5 sm:px-8 md:px-12 lg:px-16 py-6 sm:py-10 md:py-14">
+          <div className="relative z-[2] w-full h-full flex flex-col justify-between px-4 xs:px-5 sm:px-8 md:px-12 lg:px-16 py-5 xs:py-6 sm:py-10 md:py-14">
             {/* TOP ROW */}
             <div className="flex justify-between items-start">
               <motion.div 
                 initial={{ x: -30, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="max-w-[65%] sm:max-w-[50%] md:max-w-[40%]"
+                className="max-w-[70%] sm:max-w-[50%] md:max-w-[40%]"
               >
                 <h2
                   className="font-black uppercase leading-[0.92] tracking-tight"
                   style={{
-                    fontSize: 'clamp(1.5rem, 5.5vw, 5rem)',
+                    fontSize: 'clamp(1.35rem, 5vw, 5rem)',
                     background: 'linear-gradient(90deg, #FFFFFF 40%, rgba(255,255,255,0.3) 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -177,8 +177,8 @@ export const ColdOpsHeroSection: React.FC = () => {
             </div>
 
             {/* BOTTOM ROW */}
-            <div className="flex justify-between items-end pb-8 sm:pb-0">
-              <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="flex justify-between items-end pb-10 sm:pb-0 gap-2 sm:gap-4">
+              <div className="flex flex-col gap-3 sm:gap-6">
                 {/* Desktop Product Card */}
                 <motion.div 
                   initial={{ y: 30, opacity: 0 }}
@@ -215,16 +215,16 @@ export const ColdOpsHeroSection: React.FC = () => {
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="sm:hidden flex items-center gap-2.5 bg-black/70 backdrop-blur-md border border-white/20 p-2 pr-3.5 rounded-full shadow-2xl"
+                  className="sm:hidden flex items-center gap-2 bg-black/80 backdrop-blur-md border border-white/20 p-1.5 pr-2.5 rounded-full shadow-2xl max-w-[190px] xs:max-w-[220px]"
                 >
-                  <div className="w-9 h-9 rounded-full overflow-hidden bg-white/10 shrink-0 p-0.5">
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 shrink-0 p-0.5">
                     <img src={slide.productImg} alt={slide.product.name} className="w-full h-full object-contain" />
                   </div>
-                  <div className="flex flex-col">
-                    <span className="text-white text-[11px] font-bold leading-tight truncate max-w-[95px]">{slide.product.name}</span>
-                    <span className="text-[#DFA09D] text-[10px] font-black">{slide.product.price}</span>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-white text-[10px] xs:text-[11px] font-bold leading-tight truncate max-w-[70px] xs:max-w-[90px]">{slide.product.name}</span>
+                    <span className="text-[#DFA09D] text-[9px] xs:text-[10px] font-black">{slide.product.price}</span>
                   </div>
-                  <Link to={`/product/${slide.product.id}`} className="ml-1 px-3 py-1.5 bg-[#9A4A35] text-white text-[9px] uppercase font-black tracking-wider rounded-full hover:bg-[#853f2d] transition-colors min-h-[32px] flex items-center">
+                  <Link to={`/product/${slide.product.id}`} className="ml-0.5 px-2.5 py-1 bg-[#9A4A35] text-white text-[8px] xs:text-[9px] uppercase font-black tracking-wider rounded-full hover:bg-[#853f2d] transition-colors min-h-[30px] flex items-center">
                     SHOP
                   </Link>
                 </motion.div>
@@ -235,7 +235,7 @@ export const ColdOpsHeroSection: React.FC = () => {
                   transition={{ delay: 0.5 }}
                   className="flex flex-col"
                 >
-                  <p className="text-[7px] sm:text-[8px] uppercase tracking-[0.4em] text-white/30 sm:text-white/20 font-light">
+                  <p className="text-[7px] sm:text-[8px] uppercase tracking-[0.3em] sm:tracking-[0.4em] text-white/40 sm:text-white/20 font-light">
                     © 2026 Kaizoku — Kowai Core
                   </p>
                 </motion.div>
@@ -246,12 +246,12 @@ export const ColdOpsHeroSection: React.FC = () => {
                 initial={{ x: 30, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-right max-w-[50%] sm:max-w-[50%] md:max-w-[45%]"
+                className="text-right max-w-[48%] sm:max-w-[50%] md:max-w-[45%]"
               >
                 <p
                   className="font-black uppercase leading-[0.92] tracking-tight"
                   style={{
-                    fontSize: 'clamp(1.1rem, 4.5vw, 4rem)',
+                    fontSize: 'clamp(1rem, 4vw, 4rem)',
                     background: 'linear-gradient(90deg, rgba(255,255,255,0.3) 0%, #FFFFFF 60%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -267,13 +267,13 @@ export const ColdOpsHeroSection: React.FC = () => {
       </AnimatePresence>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 z-10 p-2">
+      <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-3 z-10 p-1">
         {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrentSlide(i)}
             aria-label={`Go to slide ${i + 1}`}
-            className={`h-1.5 transition-all duration-500 rounded-full ${i === currentSlide ? 'w-7 sm:w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'}`}
+            className={`h-1.5 transition-all duration-500 rounded-full ${i === currentSlide ? 'w-6 sm:w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'}`}
           />
         ))}
       </div>

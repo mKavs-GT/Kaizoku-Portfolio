@@ -11,6 +11,9 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
   const location = useLocation();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [legalModalTitle, setLegalModalTitle] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isAboutPage = location.pathname === '/about';
@@ -127,17 +130,17 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
         </div>
       </FadeIn>
 
-      {/* Mobile Drawer Overlay */}
+            {/* Mobile Drawer Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9990] bg-black/90 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8"
+            className="fixed inset-0 z-[9990] bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto max-h-[100dvh]"
           >
             {/* Drawer Header */}
-            <div className="flex items-center justify-between pb-6 border-b border-white/10">
+            <div className="flex items-center justify-between pb-6 border-b border-white/10 shrink-0">
               <span className="text-white font-black uppercase tracking-tighter italic text-2xl">
                 KAIZOKU
               </span>
@@ -151,7 +154,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
             </div>
 
             {/* Navigation Links */}
-            <div className="flex flex-col gap-6 py-8">
+            <div className="flex flex-col gap-6 py-8 my-auto">
               <Link
                 to="/"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -202,7 +205,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
             </div>
 
             {/* Drawer Footer */}
-            <div className="pt-6 border-t border-white/10 flex flex-col gap-2">
+            <div className="pt-6 border-t border-white/10 flex flex-col gap-2 shrink-0">
               <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">
                 Manhattan, NY · Japanese Streetwear
               </p>
@@ -217,7 +220,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
       {/* Contact Modal */}
       <AnimatePresence>
         {isContactOpen && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 xs:p-4 sm:p-6">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -227,123 +230,151 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
               className="absolute inset-0 bg-black/70 backdrop-blur-xl"
             />
 
-            {/* Shared wrapper — Chopper peeks from behind the card */}
-            <div className="relative w-full max-w-lg z-10 max-h-[90dvh] flex flex-col">
+            {/* Shared wrapper */}
+            <div className="relative w-full max-w-lg z-10 max-h-[92dvh] flex flex-col">
 
-              {/* Chopper — z-[9] = behind the form card (z-10) */}
+              {/* Chopper — Desktop only to prevent mobile overlap */}
               <motion.img
                 src={contactImg}
                 alt=""
                 initial={{ x: -160, opacity: 0 }}
                 animate={{ x: 0, opacity: 1, transition: { duration: 0.55, delay: 0.38, ease: [0.16, 1, 0.3, 1] } }}
                 exit={{ x: -50, opacity: 0, transition: { duration: 0.2 } }}
-                className="absolute -bottom-1 -right-2 sm:-right-32 z-[9] w-28 sm:w-56 pointer-events-none select-none opacity-40 sm:opacity-100"
+                className="hidden sm:block absolute -bottom-1 -right-32 z-[9] w-56 pointer-events-none select-none opacity-100"
               />
 
-              {/* Form card — z-10 overlaps Chopper's body */}
+              {/* Form card */}
               <motion.div
                 initial={{ opacity: 0, y: 60, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 60, scale: 0.97 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-h-[85dvh] overflow-y-auto bg-[#111111] rounded-[24px] sm:rounded-[28px] shadow-[0_0_80px_rgba(0,0,0,0.8)] z-10 flex flex-col p-6 sm:p-10"
+                className="relative w-full max-h-[88dvh] overflow-y-auto bg-[#111111] rounded-[24px] sm:rounded-[28px] shadow-[0_0_80px_rgba(0,0,0,0.8)] z-10 flex flex-col p-5 sm:p-10 border border-white/10"
               >
 
               {/* Close */}
               <button
                 onClick={() => setIsContactOpen(false)}
-                className="absolute top-5 right-5 sm:top-6 sm:right-6 w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all text-sm"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/10 flex items-center justify-center text-white/50 hover:bg-white/10 hover:text-white transition-all text-sm z-20"
+                aria-label="Close contact modal"
               >✕</button>
 
-              {/* Header */}
-              <div className="mb-6 sm:mb-8 overflow-hidden">
-                <span className="text-[#DFA09D] font-mono text-[10px] uppercase tracking-[0.4em] block mb-2 sm:mb-3">Get In Touch</span>
-                <h2
-                  className="text-white font-black uppercase leading-none italic w-full block"
-                  style={{ fontSize: 'clamp(2.4rem, 8vw, 4.8rem)', letterSpacing: '-0.05em', lineHeight: 0.95 }}
-                >
-                  Contact Us
-                </h2>
-              </div>
-
-              {/* Info strip */}
-              <div className="flex gap-8 mb-8 pb-8 border-b border-white/10">
-                <div>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-1">Location</p>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">Manhattan, NY</p>
-                </div>
-                <div>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-1">Office Hours</p>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">Mon–Fri · 11AM–2PM</p>
-                </div>
-              </div>
-
-              {/* Form */}
-              <div className="flex flex-col gap-5">
-                {/* Name row */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">First Name *</span>
-                    <input
-                      type="text"
-                      className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20"
-                    />
+              {contactSubmitted ? (
+                <div className="py-8 text-center flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-full bg-[#DFA09D]/20 border-2 border-[#DFA09D] flex items-center justify-center text-[#DFA09D] text-2xl font-bold mb-4">
+                    ✓
                   </div>
-                  <div className="flex flex-col gap-1.5">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Last Name</span>
-                    <input
-                      type="text"
-                      className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20"
-                    />
+                  <span className="text-[#DFA09D] font-mono text-[10px] uppercase tracking-[0.3em] mb-2">Message Dispatched</span>
+                  <h3 className="text-white font-black text-2xl uppercase italic mb-3">Inquiry Received</h3>
+                  <p className="text-white/60 text-xs sm:text-sm max-w-sm mb-6 leading-relaxed">
+                    Reference #KZK-INQ-948210. Our Manhattan atelier concierge will review your message and reach out within 24 hours.
+                  </p>
+                  <button
+                    onClick={() => { setContactSubmitted(false); setIsContactOpen(false); }}
+                    className="px-8 py-3 bg-[#DFA09D] text-black font-black uppercase text-xs tracking-widest rounded-full hover:bg-white transition-all min-h-[44px]"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {/* Header */}
+                  <div className="mb-5 sm:mb-8 overflow-hidden pr-8">
+                    <span className="text-[#DFA09D] font-mono text-[10px] uppercase tracking-[0.4em] block mb-1.5 sm:mb-3">Get In Touch</span>
+                    <h2
+                      className="text-white font-black uppercase leading-none italic w-full block"
+                      style={{ fontSize: 'clamp(2rem, 7vw, 4.8rem)', letterSpacing: '-0.05em', lineHeight: 0.95 }}
+                    >
+                      Contact Us
+                    </h2>
                   </div>
-                </div>
 
-                {/* Email */}
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Email *</span>
-                  <input
-                    type="email"
-                    className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20"
-                  />
-                </div>
+                  {/* Info strip */}
+                  <div className="flex gap-6 sm:gap-8 mb-6 pb-6 border-b border-white/10">
+                    <div>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-0.5">Location</p>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">Manhattan, NY</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 mb-0.5">Office Hours</p>
+                      <p className="text-[11px] font-bold uppercase tracking-wider text-white/70">Mon–Fri · 11AM–2PM</p>
+                    </div>
+                  </div>
 
-                {/* Service */}
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Service</span>
-                  <select className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white/70 text-xs outline-none focus:border-[#DFA09D]/60 transition-colors appearance-none uppercase tracking-widest">
-                    <option className="bg-[#1a1a1a]">General Inquiry</option>
-                    <option className="bg-[#1a1a1a]">Custom Pieces</option>
-                    <option className="bg-[#1a1a1a]">Brand Collaboration</option>
-                  </select>
-                </div>
+                  {/* Form */}
+                  <form onSubmit={(e) => { e.preventDefault(); setContactSubmitted(true); }} className="flex flex-col gap-4 sm:gap-5">
+                    {/* Name row */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">First Name *</span>
+                        <input
+                          type="text"
+                          required
+                          placeholder="Mikasa"
+                          className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-base sm:text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20 min-h-[42px]"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Last Name</span>
+                        <input
+                          type="text"
+                          placeholder="Ackerman"
+                          className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-base sm:text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20 min-h-[42px]"
+                        />
+                      </div>
+                    </div>
 
-                {/* Message */}
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Message</span>
-                  <textarea
-                    rows={3}
-                    className="bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-white text-xs outline-none focus:border-[#DFA09D]/60 transition-colors resize-none placeholder:text-white/20"
-                  />
-                </div>
+                    {/* Email */}
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Email *</span>
+                      <input
+                        type="email"
+                        required
+                        placeholder="agent@kaizoku.com"
+                        className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-base sm:text-xs outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20 min-h-[42px]"
+                      />
+                    </div>
 
-                {/* Checkbox */}
-                <div className="flex items-center gap-2.5">
-                  <input type="checkbox" id="signup-dark" className="accent-[#DFA09D] w-3 h-3" />
-                  <label htmlFor="signup-dark" className="text-[9px] font-bold uppercase tracking-widest text-white/30 cursor-pointer hover:text-white/60 transition-colors">
-                    Sign up for news & updates
-                  </label>
-                </div>
+                    {/* Service */}
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Service</span>
+                      <select className="bg-[#1a1a1a] border border-white/10 rounded-xl px-3.5 py-2.5 text-white/80 text-base sm:text-xs outline-none focus:border-[#DFA09D]/60 transition-colors appearance-none uppercase tracking-widest min-h-[42px]">
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Custom Pieces">Custom Pieces</option>
+                        <option value="Brand Collaboration">Brand Collaboration</option>
+                      </select>
+                    </div>
 
-                {/* Submit */}
-                <button className="w-full py-3.5 bg-[#DFA09D] text-black font-black uppercase text-[10px] tracking-[0.3em] rounded-2xl hover:bg-white transition-all duration-300 mt-1">
-                  Send Message →
-                </button>
+                    {/* Message */}
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Message</span>
+                      <textarea
+                        rows={3}
+                        placeholder="Tell us about your project or styling inquiry..."
+                        className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-base sm:text-xs outline-none focus:border-[#DFA09D]/60 transition-colors resize-none placeholder:text-white/20"
+                      />
+                    </div>
 
-                {/* Footer contact line */}
-                <p className="text-center text-[9px] text-white/20 font-bold uppercase tracking-widest pt-1">
-                  contact@kaizoku.com &nbsp;·&nbsp; © 2026 Kaizoku Studio
-                </p>
-              </div>
+                    {/* Checkbox */}
+                    <div className="flex items-center gap-2.5">
+                      <input type="checkbox" id="signup-dark" defaultChecked className="accent-[#DFA09D] w-3.5 h-3.5" />
+                      <label htmlFor="signup-dark" className="text-[9px] font-bold uppercase tracking-widest text-white/40 cursor-pointer hover:text-white/60 transition-colors">
+                        Sign up for news & updates
+                      </label>
+                    </div>
+
+                    {/* Submit */}
+                    <button type="submit" className="w-full py-3.5 bg-[#DFA09D] text-black font-black uppercase text-[10px] tracking-[0.3em] rounded-xl hover:bg-white transition-all duration-300 mt-1 min-h-[46px] active:scale-[0.99]">
+                      Send Message →
+                    </button>
+
+                    {/* Footer contact line */}
+                    <p className="text-center text-[9px] text-white/20 font-bold uppercase tracking-widest pt-1">
+                      contact@kaizoku.com &nbsp;·&nbsp; © 2026 Kaizoku Studio
+                    </p>
+                  </form>
+                </>
+              )}
             </motion.div>
             </div>
           </div>
@@ -353,7 +384,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
       {/* Login Modal */}
       <AnimatePresence>
         {isLoginOpen && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-10">
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 xs:p-4 sm:p-6 md:p-10">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -369,78 +400,104 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 40 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-4xl max-h-[90dvh] md:h-[640px] bg-[#111111] rounded-[24px] sm:rounded-[32px] overflow-y-auto md:overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col md:flex-row z-10"
+              className="relative w-full max-w-4xl max-h-[90dvh] md:h-[640px] bg-[#111111] rounded-[24px] sm:rounded-[32px] overflow-y-auto md:overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex flex-col md:flex-row z-10 border border-white/10"
             >
-              {/* Left: Form */}
-              <div className="flex-1 p-6 sm:p-10 md:p-14 flex flex-col justify-center">
-
-                {/* Logo + brand */}
-                <div className="mb-6 sm:mb-8 flex items-center gap-3">
-                  <img
-                    src={new URL('../assets/logo.png', import.meta.url).href}
-                    className="h-7 sm:h-8 w-auto object-contain"
-                    alt="Kaizoku Logo"
-                  />
-                  <span className="text-white font-black uppercase tracking-tighter italic text-xl">KAIZOKU</span>
-                </div>
-
-                {/* Heading */}
-                <h2 className="text-white font-black text-2xl sm:text-4xl uppercase tracking-tighter leading-none mb-2 italic">
-                  Welcome back!
-                </h2>
-                <p className="text-white/40 text-xs mb-6 sm:mb-8 font-medium">
-                  Your account, your orders, your rebellion — all in one place.
-                </p>
-
-                {/* Social sign-in */}
-                <div className="grid grid-cols-2 gap-3 mb-6">
-                  <button className="flex items-center justify-center gap-2.5 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all group min-h-[44px]">
-                    <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 group-hover:text-white transition-colors">Google</span>
-                  </button>
-                  <button className="flex items-center justify-center gap-2.5 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all group min-h-[44px]">
-                    <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.42.07 2.4.83 3.22.84.82.01 2.33-.97 3.86-.83 1.6.15 2.83.86 3.58 2.22-3.35 2.06-2.75 6.7.34 8.65zm-3.82-15.1c.15 1.74-1.32 3.26-3.05 3.12-.26-1.67 1.3-3.22 3.05-3.12z"/></svg>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 group-hover:text-white transition-colors">Apple</span>
-                  </button>
-                </div>
-
-                {/* Divider */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-1 h-[1px] bg-white/10" />
-                  <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold italic">Or</span>
-                  <div className="flex-1 h-[1px] bg-white/10" />
-                </div>
-
-                {/* Email input */}
-                <div className="flex flex-col gap-3 mb-6">
-                  <div className="flex flex-col gap-1.5">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Email address</span>
-                    <input
-                      type="email"
-                      placeholder="your@email.com"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-xs font-medium outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20 min-h-[44px]"
-                    />
+              {loginSuccess ? (
+                <div className="flex-1 p-6 sm:p-10 md:p-14 flex flex-col justify-center items-center text-center">
+                  <div className="w-16 h-16 rounded-full bg-[#DFA09D]/20 border-2 border-[#DFA09D] flex items-center justify-center text-[#DFA09D] text-3xl font-bold mb-4">
+                    ✓
                   </div>
-                  <button className="w-full py-3.5 bg-[#DFA09D] text-black font-black rounded-xl hover:bg-white transition-all duration-300 text-[10px] uppercase tracking-[0.25em] min-h-[44px]">
-                    Sign in with Email →
+                  <span className="text-[#DFA09D] font-mono text-[10px] uppercase tracking-[0.3em] mb-2">Authenticated</span>
+                  <h3 className="text-white font-black text-2xl sm:text-3xl uppercase italic mb-2">Access Granted</h3>
+                  <p className="text-white/60 text-xs sm:text-sm max-w-sm mb-6 leading-relaxed">
+                    Identity verified (Session #KZK-AUTH-831902). Your rebellion orders and profile are synced.
+                  </p>
+                  <button
+                    onClick={() => { setLoginSuccess(false); setIsLoginOpen(false); }}
+                    className="px-8 py-3.5 bg-[#DFA09D] text-black font-black uppercase text-xs tracking-widest rounded-full hover:bg-white transition-all min-h-[46px]"
+                  >
+                    Enter Atelier →
                   </button>
                 </div>
+              ) : (
+                /* Left: Form */
+                <div className="flex-1 p-5 xs:p-6 sm:p-10 md:p-14 flex flex-col justify-center">
 
-                {/* Sign up link */}
-                <p className="text-[10px] text-center font-bold uppercase tracking-widest text-white/30 py-1">
-                  No account?{' '}
-                  <button className="text-[#DFA09D] hover:text-white underline underline-offset-4 transition-colors">
-                    Sign Up
-                  </button>
-                </p>
+                  {/* Logo + brand */}
+                  <div className="mb-5 sm:mb-8 flex items-center gap-3">
+                    <img
+                      src={new URL('../assets/logo.png', import.meta.url).href}
+                      className="h-7 sm:h-8 w-auto object-contain"
+                      alt="Kaizoku Logo"
+                    />
+                    <span className="text-white font-black uppercase tracking-tighter italic text-xl">KAIZOKU</span>
+                  </div>
 
-                {/* Footer links */}
-                <div className="mt-6 sm:mt-8 flex justify-center gap-6 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
-                  <button className="hover:text-white/60 transition-colors p-1">Help</button>
-                  <button className="hover:text-white/60 transition-colors p-1">Terms</button>
-                  <button className="hover:text-white/60 transition-colors p-1">Privacy</button>
+                  {/* Heading */}
+                  <h2 className="text-white font-black text-2xl sm:text-4xl uppercase tracking-tighter leading-none mb-2 italic">
+                    Welcome back!
+                  </h2>
+                  <p className="text-white/40 text-xs mb-5 sm:mb-8 font-medium">
+                    Your account, your orders, your rebellion — all in one place.
+                  </p>
+
+                  {/* Social sign-in */}
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <button 
+                      onClick={() => setLoginSuccess(true)}
+                      className="flex items-center justify-center gap-2.5 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all group min-h-[44px]"
+                    >
+                      <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 group-hover:text-white transition-colors">Google</span>
+                    </button>
+                    <button 
+                      onClick={() => setLoginSuccess(true)}
+                      className="flex items-center justify-center gap-2.5 py-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all group min-h-[44px]"
+                    >
+                      <svg className="w-4 h-4 text-white/70 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.42.07 2.4.83 3.22.84.82.01 2.33-.97 3.86-.83 1.6.15 2.83.86 3.58 2.22-3.35 2.06-2.75 6.7.34 8.65zm-3.82-15.1c.15 1.74-1.32 3.26-3.05 3.12-.26-1.67 1.3-3.22 3.05-3.12z"/></svg>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 group-hover:text-white transition-colors">Apple</span>
+                    </button>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="flex items-center gap-4 mb-5">
+                    <div className="flex-1 h-[1px] bg-white/10" />
+                    <span className="text-[10px] uppercase tracking-widest text-white/30 font-bold italic">Or</span>
+                    <div className="flex-1 h-[1px] bg-white/10" />
+                  </div>
+
+                  {/* Email input */}
+                  <form onSubmit={(e) => { e.preventDefault(); setLoginSuccess(true); }} className="flex flex-col gap-3 mb-5">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Email address</span>
+                      <input
+                        type="email"
+                        required
+                        placeholder="your@email.com"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-base sm:text-xs font-medium outline-none focus:border-[#DFA09D]/60 transition-colors placeholder:text-white/20 min-h-[44px]"
+                      />
+                    </div>
+                    <button type="submit" className="w-full py-3.5 bg-[#DFA09D] text-black font-black rounded-xl hover:bg-white transition-all duration-300 text-[10px] uppercase tracking-[0.25em] min-h-[46px]">
+                      Sign in with Email →
+                    </button>
+                  </form>
+
+                  {/* Sign up link */}
+                  <p className="text-[10px] text-center font-bold uppercase tracking-widest text-white/30 py-1">
+                    No account?{' '}
+                    <button onClick={() => setLoginSuccess(true)} className="text-[#DFA09D] hover:text-white underline underline-offset-4 transition-colors">
+                      Sign Up
+                    </button>
+                  </p>
+
+                  {/* Footer links */}
+                  <div className="mt-5 sm:mt-8 flex justify-center gap-6 text-[8px] font-bold uppercase tracking-[0.3em] text-white/20">
+                    <button onClick={() => setLegalModalTitle('Client Help & Concierge')} className="hover:text-white/60 transition-colors p-1">Help</button>
+                    <button onClick={() => setLegalModalTitle('Terms of Service')} className="hover:text-white/60 transition-colors p-1">Terms</button>
+                    <button onClick={() => setLegalModalTitle('Privacy Policy')} className="hover:text-white/60 transition-colors p-1">Privacy</button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Right: Image panel */}
               <div className="flex-1 hidden md:block relative bg-black overflow-hidden">
@@ -450,7 +507,6 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
                   alt="Rebellion Login"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-                {/* Grain overlay */}
                 <div
                   className="absolute inset-0 opacity-[0.12] pointer-events-none"
                   style={{ backgroundImage: 'radial-gradient(#fff 0.5px, transparent 0)', backgroundSize: '3px 3px' }}
@@ -465,7 +521,6 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
                   </p>
                 </div>
 
-                {/* Close button */}
                 <button
                   onClick={() => setIsLoginOpen(false)}
                   className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white/70 hover:bg-white hover:text-black transition-all text-sm"
@@ -477,7 +532,7 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
               {/* Mobile close */}
               <button
                 onClick={() => setIsLoginOpen(false)}
-                className="absolute top-5 right-5 md:hidden w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm z-20"
+                className="absolute top-4 right-4 md:hidden w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white transition-all text-sm z-20"
                 aria-label="Close modal"
               >
                 ✕
@@ -486,7 +541,41 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Legal Dialog Modal */}
+      <AnimatePresence>
+        {legalModalTitle && (
+          <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-[#141414] border border-white/15 rounded-3xl max-w-lg w-full p-6 sm:p-8 text-white relative shadow-2xl"
+            >
+              <div className="flex justify-between items-center mb-4 pb-3 border-b border-white/10">
+                <h3 className="font-black text-xl uppercase italic tracking-tight">{legalModalTitle}</h3>
+                <button
+                  onClick={() => setLegalModalTitle(null)}
+                  className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-white/60 text-xs leading-relaxed mb-6 font-mono">
+                {legalModalTitle === 'Privacy Policy' && 'Kaizoku protects all personal data with zero third-party brokers. Encrypted at rest in our atelier network.'}
+                {legalModalTitle === 'Terms of Service' && 'All streetwear pieces are certified bespoke limited runs. Exchanges accepted within 14 days of tracked delivery.'}
+                {legalModalTitle === 'Client Help & Concierge' && 'Need styling advice or order modifications? Contact concierge@kaizoku.com or use the Contact modal for 24-hour turnaround.'}
+              </p>
+              <button
+                onClick={() => setLegalModalTitle(null)}
+                className="w-full py-3 bg-[#DFA09D] text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-white transition-all"
+              >
+                Understood
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
-

@@ -16,7 +16,7 @@ interface InventoryItemProps {
 }
 
 const InventoryItem: React.FC<InventoryItemProps & { isLast?: boolean }> = ({ id, image, name, isLast }) => (
-  <Link to="/products" className={`flex flex-col gap-3 sm:gap-4 group cursor-pointer relative overflow-hidden rounded-xl sm:rounded-2xl block ${isLast ? 'col-span-2 sm:col-span-1' : ''}`}>
+  <Link to="/products" className={`flex flex-col gap-2.5 sm:gap-4 group cursor-pointer relative overflow-hidden rounded-xl sm:rounded-2xl block ${isLast ? 'col-span-2 sm:col-span-1' : ''}`}>
     <div className="relative aspect-[4/5] overflow-hidden bg-black">
       <ProductImage
         id={id}
@@ -27,12 +27,12 @@ const InventoryItem: React.FC<InventoryItemProps & { isLast?: boolean }> = ({ id
       />
       <div className="absolute inset-0 bg-black/40 sm:bg-black/30 group-hover:bg-transparent transition-all duration-500"></div>
       <div className="absolute inset-0 flex flex-col items-center justify-center z-10 gap-2 sm:gap-4 p-2 text-center">
-        <h4 className="text-[#D7E2EA] font-black text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl uppercase italic transition-all duration-500 group-hover:scale-105 group-hover:text-white tracking-[0.15em] sm:tracking-[0.2em]">
+        <h4 className="text-[#D7E2EA] font-black text-base xs:text-lg sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl uppercase italic transition-all duration-500 group-hover:scale-105 group-hover:text-white tracking-wider sm:tracking-[0.2em] break-words text-center px-1">
           {name}
         </h4>
-        <button className="px-4 py-1.5 sm:px-5 sm:py-2 border border-white/80 text-white text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.25em] sm:tracking-[0.3em] opacity-90 sm:opacity-0 group-hover:opacity-100 transform translate-y-0 sm:translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-white hover:text-black rounded">
+        <span className="px-3.5 py-1.5 sm:px-5 sm:py-2 border border-white/80 text-white text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] opacity-90 sm:opacity-0 group-hover:opacity-100 transform translate-y-0 sm:translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-white hover:text-black rounded min-h-[30px] flex items-center justify-center">
           Tap to View
-        </button>
+        </span>
       </div>
     </div>
   </Link>

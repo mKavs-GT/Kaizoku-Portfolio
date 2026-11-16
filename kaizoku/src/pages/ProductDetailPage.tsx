@@ -29,6 +29,9 @@ export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeImg, setActiveImg] = useState<string>('');
+  const [quantity, setQuantity] = useState(1);
+  const [addedToBag, setAddedToBag] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
 
   const images = id ? getProductImages(id) : null;
 
@@ -78,13 +81,13 @@ export const ProductDetailPage: React.FC = () => {
           </div>
 
           {/* Product Info */}
-          <div className="flex flex-col lg:pt-34">
-            <h1 className="text-3xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter italic leading-none mb-3 sm:mb-4">
+          <div className="flex flex-col lg:pt-12">
+            <h1 className="text-2xl xs:text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tighter italic leading-none mb-3 sm:mb-4 break-words">
               {id.replace(/([a-z])([0-9])/, '$1 $2')}
             </h1>
-            <p className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-[#1A1A1A]">₹ 1,299.00</p>
+            <p className="text-lg xs:text-xl sm:text-2xl font-bold mb-4 sm:mb-8 text-[#1A1A1A]">₹ 1,299.00</p>
 
-            <div className="prose prose-sm text-black/60 mb-8 sm:mb-12">
+            <div className="prose prose-sm text-black/60 mb-6 sm:mb-12">
               <p>
                 An over-engineered piece from the Kaizoku core collection. Designed with structural silhouettes and distressed hardware, this garment represents the pinnacle of rebellion-inspired streetwear.
               </p>
@@ -94,17 +97,30 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Controls */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-6 mb-8 sm:mb-12">
-              <div className="flex items-center justify-between sm:justify-start border border-black/20 rounded-full px-6 py-3.5 gap-8 min-h-[48px]">
-                <button className="text-xl hover:text-[#DFA09D] p-1">-</button>
-                <span className="font-bold">1</span>
-                <button className="text-xl hover:text-[#DFA09D] p-1">+</button>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-6 mb-6 sm:mb-12">
+              <div className="flex items-center justify-between sm:justify-start border border-black/20 rounded-full px-5 py-3 gap-6 sm:gap-8 min-h-[46px]">
+                <button 
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  className="text-xl hover:text-[#DFA09D] p-1 font-bold select-none min-w-[28px]"
+                  aria-label="Decrease quantity"
+                >-</button>
+                <span className="font-bold text-sm min-w-[20px] text-center">{quantity}</span>
+                <button 
+                  onClick={() => setQuantity(q => Math.min(10, q + 1))}
+                  className="text-xl hover:text-[#DFA09D] p-1 font-bold select-none min-w-[28px]"
+                  aria-label="Increase quantity"
+                >+</button>
               </div>
               <button 
-                onClick={() => navigate('/checkout')}
-                className="flex-1 bg-black text-white font-bold py-4 rounded-full hover:bg-[#DFA09D] hover:text-black transition-colors uppercase tracking-widest text-xs min-h-[48px] flex items-center justify-center active:scale-[0.99]"
+                onClick={() => {
+                  setAddedToBag(true);
+                  setTimeout(() => {
+                    navigate('/checkout');
+                  }, 800);
+                }}
+                className="flex-1 bg-black text-white font-bold py-3.5 sm:py-4 rounded-full hover:bg-[#DFA09D] hover:text-black transition-all uppercase tracking-widest text-xs min-h-[46px] flex items-center justify-center active:scale-[0.99] shadow-md"
               >
-                Add to Basket
+                {addedToBag ? '✓ Added to Basket' : 'Add to Basket'}
               </button>
             </div>
 
@@ -183,7 +199,7 @@ export const ProductDetailPage: React.FC = () => {
                 { name: "Catherine", time: "10 days ago", text: "I love my jacket and the customer service is excellent. They respond in a timely manner with loads of information about collections, accessories and maintenance information." },
                 { name: "Peter", time: "2 weeks ago", text: "Visited Kaizoku store. Product looks great, particularly seams and hardware, looked clean and sturdy. My wife and I love the anime-inspired couture. We bought 2 jackets." },
               ].map((review, i) => (
-                <div key={i} className="snap-start shrink-0 w-[260px] sm:w-[340px] flex flex-col relative">
+                <div key={i} className="snap-start shrink-0 w-[78vw] xs:w-[280px] sm:w-[340px] flex flex-col relative">
                   {/* Bubble */}
                   <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative z-10">
                     <p className="text-xs sm:text-[13px] text-[#1A1A1A]/70 leading-[1.6] mb-6 sm:mb-8 h-[95px] sm:h-[105px] overflow-hidden">
@@ -265,18 +281,25 @@ export const ProductDetailPage: React.FC = () => {
             {/* Form Content */}
             <div className="flex flex-col gap-3">
               <span className="text-white font-bold text-xs sm:text-sm">Stay Informed</span>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="bg-[#FFEFE5] text-black px-5 py-3.5 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex-1 outline-none focus:ring-2 focus:ring-white transition-all placeholder:text-black/50 text-xs sm:text-sm font-semibold min-h-[44px]"
-                />
-                <button className="bg-[#7A2E24] text-white px-7 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-xs sm:text-sm hover:bg-[#5C2018] transition-colors whitespace-nowrap shadow-md min-h-[44px]">
-                  Subscribe
-                </button>
-              </div>
+              {subscribed ? (
+                <div className="bg-white/20 border border-white/40 rounded-xl p-4 text-white text-xs font-mono">
+                  ✓ Subscribed! Welcome to the Kaizoku inner circle. Drop preview dispatched.
+                </div>
+              ) : (
+                <form onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }} className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    className="bg-[#FFEFE5] text-black px-4 py-3 sm:px-6 sm:py-4 rounded-xl sm:rounded-2xl flex-1 outline-none focus:ring-2 focus:ring-white transition-all placeholder:text-black/50 text-base sm:text-sm font-semibold min-h-[46px]"
+                  />
+                  <button type="submit" className="bg-[#7A2E24] text-white px-7 py-3 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm hover:bg-[#5C2018] transition-colors whitespace-nowrap shadow-md min-h-[46px]">
+                    Subscribe
+                  </button>
+                </form>
+              )}
               <p className="text-white/80 text-[10px] sm:text-[11px] mt-1 font-medium">
-                By subscribing you agree to our <a href="#" className="underline underline-offset-4 hover:text-white transition-colors">Privacy Policy</a>
+                By subscribing you agree to our <span className="underline underline-offset-4">Privacy Policy</span>
               </p>
             </div>
           </div>

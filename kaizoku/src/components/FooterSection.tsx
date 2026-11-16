@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export const FooterSection: React.FC = () => {
+  const [subEmail, setSubEmail] = React.useState('');
+  const [subMsg, setSubMsg] = React.useState('');
   return (
     <footer className="bg-[#0C0C0C] text-white py-14 sm:py-20 px-5 sm:px-10 md:px-16 border-t border-white/5">
       <div className="max-w-7xl mx-auto flex flex-col gap-12 sm:gap-20">
@@ -66,18 +68,13 @@ export const FooterSection: React.FC = () => {
                 className="bg-transparent border-b border-white/20 py-2.5 text-xs font-mono w-full focus:outline-none focus:border-[#DFA09D] transition-colors placeholder:text-white/30"
               />
               <button 
-                onClick={() => alert("Thanks for subscribing!")}
+                onClick={() => { setSubMsg('✓ Accepted! Welcome to the crew.'); setTimeout(() => setSubMsg(''), 4000); }}
                 className="border-b border-white/20 px-4 hover:text-[#DFA09D] transition-colors min-h-[44px] flex items-center justify-center"
                 aria-label="Subscribe"
               >
                 <span className="text-xl">→</span>
               </button>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom Bar */}
+            </div>{subMsg && <p className="text-[10px] text-[#DFA09D] font-mono mt-2">{subMsg}</p>}</div></div>{/* Bottom Bar */}
         <div className="flex flex-col sm:flex-row justify-between items-center pt-8 sm:pt-12 border-t border-white/5 gap-4 sm:gap-6 text-center sm:text-left">
           <p className="text-[10px] text-white/30 sm:text-white/20 font-mono tracking-widest">
             © 2026 KAIZOKU — ALL RIGHTS RESERVED

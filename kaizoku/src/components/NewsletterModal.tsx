@@ -97,7 +97,7 @@ export const NewsletterModal: React.FC = () => {
             <img
               src={lookImg}
               alt="Peeking"
-              className="absolute -bottom-4 right-2 sm:-bottom-6 sm:-right-16 w-20 sm:w-32 md:w-44 pointer-events-none select-none z-20 opacity-60 sm:opacity-100"
+              className="hidden sm:block absolute -bottom-6 -right-16 w-32 md:w-44 pointer-events-none select-none z-20 opacity-100"
             />
           </motion.div>
         </div>

@@ -100,39 +100,47 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, i, progress, range, targetScale }) => {
   const scale = useTransform(progress, range, [1, targetScale]);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   return (
     <div className="h-fit md:min-h-[70vh] flex items-center justify-center relative md:sticky top-0 md:top-[-40px] w-full py-3 sm:py-4 md:py-6">
       <motion.div
         style={{
-          scale,
-          top: `calc(${i * 20}px)`
+          scale: isMobile ? 1 : scale,
+          top: isMobile ? 0 : `calc(${i * 20}px)`
         }}
-        className="relative w-full flex flex-col rounded-[28px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#DFA09D]/50 bg-[#0C0C0C] p-4 sm:p-8 md:p-12 shadow-2xl"
+        className="relative w-full flex flex-col rounded-[24px] xs:rounded-[28px] sm:rounded-[50px] md:rounded-[60px] border border-[#DFA09D]/40 sm:border-2 sm:border-[#DFA09D]/50 bg-[#0C0C0C] p-3.5 xs:p-4 sm:p-8 md:p-12 shadow-2xl"
       >
-        <div className="flex justify-between items-start mb-6 sm:mb-12 gap-3 sm:gap-4">
-          <div className="flex gap-4 sm:gap-6 md:gap-10 items-center">
+        <div className="flex justify-between items-start mb-5 sm:mb-12 gap-3 sm:gap-4">
+          <div className="flex gap-3 sm:gap-6 md:gap-10 items-center">
             <div
               className="font-black leading-none text-transparent shrink-0"
               style={{
-                fontSize: 'clamp(2.5rem, 8vw, 150px)',
-                WebkitTextStroke: '2px rgba(223, 160, 157, 0.5)',
+                fontSize: 'clamp(2.2rem, 7vw, 150px)',
+                WebkitTextStroke: '1.5px rgba(223, 160, 157, 0.5)',
               }}
             >
               {project.num}
             </div>
 
-            <div className="h-12 sm:h-20 md:h-32 w-[1px] bg-white/20 shrink-0"></div>
+            <div className="h-10 sm:h-20 md:h-32 w-[1px] bg-white/20 shrink-0"></div>
 
             <div className="flex flex-col">
               <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                <span className="w-5 sm:w-8 h-[1px] bg-[#DFA09D]"></span>
-                <span className="uppercase text-[9px] sm:text-xs font-bold tracking-[0.3em] sm:tracking-[0.4em] text-[#DFA09D]">Collection  {project.num}</span>
+                <span className="w-4 sm:w-8 h-[1px] bg-[#DFA09D]"></span>
+                <span className="uppercase text-[8px] xs:text-[9px] sm:text-xs font-bold tracking-[0.25em] sm:tracking-[0.4em] text-[#DFA09D]">Collection  {project.num}</span>
               </div>
-              <h3 className="font-black text-xl sm:text-4xl md:text-5xl lg:text-6xl mb-1 sm:mb-3 uppercase tracking-tighter italic leading-none">
+              <h3 className="font-black text-lg xs:text-xl sm:text-4xl md:text-5xl lg:text-6xl mb-1 sm:mb-3 uppercase tracking-tighter italic leading-none">
                 {project.name}
               </h3>
-              <p className="text-white/40 font-mono text-[9px] sm:text-xs md:text-sm uppercase tracking-wider sm:tracking-widest max-w-md line-clamp-2 sm:line-clamp-none">
+              <p className="text-white/40 font-mono text-[8px] xs:text-[9px] sm:text-xs md:text-sm uppercase tracking-wider sm:tracking-widest max-w-md line-clamp-2 sm:line-clamp-none">
                 {project.category}
               </p>
             </div>
@@ -142,13 +150,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, i, progress, range, 
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:gap-8 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 xs:gap-3 sm:gap-6 md:gap-8 w-full">
           {project.items.map((item, idx) => (
             <ProductItem key={idx} {...item} />
           ))}
         </div>
 
-        <div className="lg:hidden mt-6 sm:mt-10 w-full flex justify-center">
+        <div className="lg:hidden mt-5 sm:mt-10 w-full flex justify-center">
           <ViewAllButton />
         </div>
       </motion.div>
