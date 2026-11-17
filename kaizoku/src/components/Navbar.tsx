@@ -16,6 +16,8 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
   const [legalModalTitle, setLegalModalTitle] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const isAboutPage = location.pathname === '/about';
   const isProductPage = location.pathname.startsWith('/product/');
   
@@ -67,30 +69,41 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
           </div>
         )}
 
-        {/* Mobile Right: Cart + Hamburger */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* Mobile Right: Search + Cart + Hamburger */}
+        <div className="flex md:hidden items-center gap-3.5">
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className={`${darkLinks ? 'text-black' : 'text-white'} p-1 hover:opacity-70 transition-opacity`}
+            aria-label="Search"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
           <Link 
             to="/checkout"
-            className={`${darkLinks ? 'text-black' : 'text-[#D7E2EA]'} p-2 hover:opacity-70 transition-opacity duration-200 relative`}
+            className={`${darkLinks ? 'text-black' : 'text-white'} p-1 hover:opacity-70 transition-opacity relative`}
             aria-label="Shopping Cart"
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            <span className="absolute top-0 right-0 bg-[#DFA09D] text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">3</span>
+            <span className="absolute -top-1 -right-1 bg-[#E8A5B0] text-black text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
           </Link>
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`${darkLinks ? 'text-black bg-black/5' : 'text-[#D7E2EA] bg-white/10'} w-10 h-10 rounded-full flex items-center justify-center hover:opacity-70 transition-all`}
+            className={`${darkLinks ? 'text-black' : 'text-white'} p-1 hover:opacity-70 transition-all`}
             aria-label="Toggle mobile menu"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="4" y1="7" x2="20" y2="7"></line>
-              <line x1="4" y1="12" x2="20" y2="12"></line>
-              <line x1="4" y1="17" x2="20" y2="17"></line>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
         </div>
@@ -129,6 +142,43 @@ export const Navbar: React.FC<NavbarProps> = ({ darkLinks = false }) => {
           </Link>
         </div>
       </FadeIn>
+      {/* Mobile Search Bar Dropdown */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="md:hidden px-5 pt-2 pb-2 w-full overflow-hidden relative z-40"
+          >
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  window.location.hash = '#/products?search=' + encodeURIComponent(searchQuery.trim());
+                  setIsSearchOpen(false);
+                }
+              }}
+              className="relative flex items-center w-full"
+            >
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="SEARCH KAIZOKU PIECES..."
+                autoFocus
+                className="w-full bg-[#181818] border border-white/20 rounded-full py-2 pl-4 pr-10 text-xs text-white uppercase placeholder:text-white/40 focus:outline-none focus:border-[#E8A5B0] transition-colors"
+              />
+              <button
+                type="submit"
+                className="absolute right-3 text-white/60 hover:text-white text-xs font-bold"
+              >
+                ↵
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
             {/* Mobile Drawer Overlay */}
       <AnimatePresence>
